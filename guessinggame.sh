@@ -1,23 +1,21 @@
-#! /bin/bash
-check_guess() {
-total_files=$(ls $(pwd) | wc -l)
-while true; do
-echo "Can you guess how many files are here?"
-read guessed_total
+#!/bin/bash
 
-	if ! [[ $guessed_total =~ ^[0-9]+$ ]]; then
-		echo "please enter a valid number"
-		continue
-	elif [[ $total_files -lt $guessed_total  ]]; then
-		echo "Sorry, your guess is high than the actual total, please try agin"
-		continue
-	elif [[ $total_files -gt $guessed_total ]]; then
-		echo "Sorry, your guess is low than the actual total, please try agin" 
-	continue
-else 
-        echo "Congratulation your guess is correct! You are awsome!"
-  break
-	fi
+total_files=$(ls -1 | wc -l)
+
+echo "Welcome to the guessing game!"
+echo "How many files are in the current directory?"
+
+while true; do
+    read -p "Enter your guess: " guessed_total
+    
+    if ! [[ "$guessed_total" =~ ^[0-9]+$ ]]; then
+        echo "Please enter a valid positive integer."
+    elif [[ $total_files -lt $guessed_total ]]; then
+        echo "Too high! Try again."
+    elif [[ $total_files -gt $guessed_total ]]; then
+        echo "Too low! Try again."
+    else
+        echo "Congratulations! You guessed correctly. There are $total_files files in the current directory."
+        break
+    fi
 done
-}
-check_guess
